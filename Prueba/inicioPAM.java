@@ -67,8 +67,34 @@ class inicioPAM {
     }
 }
 
-
 public class InicioPAM {
     public static void main(String[] args) {
+         inicioPAM pam = new inicioPAM();
+
+        //Menu
+        String opcion = JOptionPane.showInputDialog(
+            "Selecciona una opción:\n"
+            + "1. Reglamento POO\n"
+            + "2. Lineamientos Classroom\n"
+            + "3. Fechas de Parciales\n"
+            + "4. Porcentajes por Parcial"
+        );
+
+        switch(opcion) {
+            case "1":
+                JOptionPane.showMessageDialog(null, pam.reglamentoPOO());
+                break;
+            case "2":
+                JOptionPane.showMessageDialog(null, pam.lineamientosClassroom());
+                break;
+            case "3":
+                JOptionPane.showMessageDialog(null, pam.fechasParciales());
+                break;
+            case "4":
+                JOptionPane.showMessageDialog(null, pam.porcentajesPorParcial());
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Opción no válida.");
+        }
     }
 }
