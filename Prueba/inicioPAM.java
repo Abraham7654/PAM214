@@ -28,7 +28,45 @@ class inicioPAM {
         + "16. El día destinado a entrega de calificaciones todos los estudiantes deben estar presentes; ese día se entregarán exámenes y se brindará retroalimentación.\n"
         + "17. Este reglamento entra en vigor después de ser firmado o aceptado por la mayoría de estudiantes asistentes a la primera sesión de la materia.";
     }
+
+     public String lineamientosClassroom() 
+     {
+        return "Lineamientos Classroom:\n"
+        + "- Entregar los trabajos para su revisión.\n"
+        + "- Entregas en PDF.\n"
+        + "- Avisos de clase.\n"
+        + "- Entregas autorizadas con retraso = calificación máxima de 5.";
+    }
+
+      public String fechasParciales() 
+      {
+        return "Fechas de Parciales:\n"
+        + "1er Parcial: 01-10-25\n"
+        + "2do Parcial: 05-10-25\n"
+        + "3er Parcial: 03-12-25\n"
+        + "Examen Final: 08-12-25";
+    }
+
+    public String porcentajesPorParcial() {
+        return "Porcentajes por Parcial:\n\n"
+        + "1er Parcial:\n"
+        + "- Evidencia de Conocimiento: 40%\n"
+        + "- Evidencia de Desempeño: 20%\n"
+        + "- Evidencia de Producto: 30%\n"
+        + "- Proyecto Integrador: 10%\n\n"
+        + "2do Parcial:\n"
+        + "- Evidencia de Conocimiento: 40%\n"
+        + "- Evidencia de Desempeño: 20%\n"
+        + "- Evidencia de Producto: 20%\n"
+        + "- Proyecto Integrador: 20%\n\n"
+        + "3er Parcial:\n"
+        + "- Evidencia de Conocimiento: 20%\n"
+        + "- Evidencia de Desempeño: 10%\n"
+        + "- Evidencia de Producto: 40%\n"
+        + "- Proyecto Integrador: 30%";
+    }
 }
+
 
 public class InicioPAM {
     public static void main(String[] args) {
