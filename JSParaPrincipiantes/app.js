@@ -1,31 +1,7 @@
-// Tipos de datos
-"Hello World" // string
-"Hello World" // string
+let passwordDB = 'pepe123'
 
-1000000  // number
--2,3
+let input = 'pepe123'
 
-// boolen
-true
-false
+let result = input == passwordDB;
 
-// array
-['joe', 'ryan', 'martha']
-[1,2,3]
-[true, false, true, false]
-
-// object
-
-{
-    "username": 'ryan',
-    "score": 70.4,
-    "hours": 14,
-    "proffesional": true
-}
-
-{
-    "username": 'joe',
-    "score": 0.4,
-    "hours": 1,
-    "proffesional": true
-}
+console.log(result);
