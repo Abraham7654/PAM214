@@ -1,11 +1,10 @@
-let passwordDB = 'pepe123'
+let score = 70
 
-let input = 'pepe123'
-
-let result = input == passwordDB;
-
-if (result === true) {
-    console.log('Login Correcto');
-}else{
-    console.log('Contraseña Incorrecta');
+if(score > 30 ) {
+    console.log('You need practice more');
+}else if( score > 15) {
+    console.log('Estas mejorando');
+}
+else {
+    console.log('You need to follow this tutorial')
 }
