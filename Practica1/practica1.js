@@ -1,9 +1,7 @@
 
-let nombre = "Armando";
-const edad = 25;
+const cuadrado = (numero) => numero * numero;
 
-nombre = "Ana Maria";
 
-const saludo = "Hola, " + ". Tienes " + edad + "años.";
-
-console.log (saludo);
+console.log (cuadrado (3));
+console.log (cuadrado (6));
+console.log (cuadrado (9));
