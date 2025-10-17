@@ -3,7 +3,7 @@
 
 import { Text, StyleSheet, View } from 'react-native'
 
-export default function ImageBackground(){
+export default function ActivityIndicatorScreen(){
   
     return (
       <View>
