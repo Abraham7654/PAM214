@@ -22,7 +22,7 @@ export default function ImageBackgroundScreen(){
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground
       source ={{
-        uri: 'https://wallpercave.com/wp/wp3850825.jpg',
+        uri: 'https://wallpapercave.com/wp/wp3850825.jpg',
       }}
       style={styles.background}
       >
