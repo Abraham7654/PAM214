@@ -35,7 +35,8 @@ export default function MenuScreen() {
     case 'BottomSheet':
       return <BottomSheetScreen />
     case 'Repaso1Screen':
-      return <Repaso1Screen/>
+      return <Repaso1Screen />
+      
     case 'menu':
     default:
       return (

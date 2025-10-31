@@ -6,19 +6,18 @@ import {
   Switch, 
   Alert, 
   ImageBackground, 
-  Image,
   TouchableOpacity,
   SafeAreaView,
   StatusBar
-} from 'react-native'
-import { useState, useEffect } from 'react'
+} from 'react-native';
+import { useState, useEffect } from 'react';
 
 export default function Repaso1Screen() {
 
   const [showSplash, setShowSplash] = useState(true);
-  const [nombre, setNombre] = useState('')
-  const [correo, setCorreo] = useState('')
-  const [acepto, setAcepto] = useState(false)
+  const [nombre, setNombre] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [acepto, setAcepto] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -29,20 +28,20 @@ export default function Repaso1Screen() {
 
   const registrar = () => {
     if ([nombre.trim(), correo.trim()].includes('')) {
-      Alert.alert('Error', 'Por favor completa todos los campos.')
-      return
+      Alert.alert('Error', 'Por favor completa todos los campos.');
+      return;
     }
 
     if (!acepto) {
-      Alert.alert('Términos no aceptados', 'Debes aceptar los términos y condiciones.')
-      return
+      Alert.alert('Términos no aceptados', 'Debes aceptar los términos y condiciones.');
+      return;
     }
 
-    Alert.alert('Registro exitoso', `Nombre: ${nombre}\nCorreo: ${correo}`)
-    setNombre('')
-    setCorreo('')
-    setAcepto(false)
-  }
+    Alert.alert('Registro exitoso', `Nombre: ${nombre}\nCorreo: ${correo}`);
+    setNombre('');
+    setCorreo('');
+    setAcepto(false);
+  };
 
   if (showSplash) {
     return (
@@ -60,7 +59,6 @@ export default function Repaso1Screen() {
       >
         <StatusBar barStyle="light-content" />
         <View style={styles.caja}>
-
           <Text style={styles.titulo}>Registro de Usuario</Text>
 
           <TextInput
@@ -94,11 +92,10 @@ export default function Repaso1Screen() {
           <TouchableOpacity onPress={registrar}>
             <Text style={styles.registerButtonText}>Registrarse</Text>
           </TouchableOpacity>
-
         </View>
       </ImageBackground>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -112,12 +109,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: '#000',
     marginTop: 20,
-  },
-  logo: {
-    width: 120,
-    height: 120,
-    alignSelf: 'center',
-    marginBottom: 10,
   },
   fondo: {
     flex: 1,
@@ -167,4 +158,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingVertical: 10,
   },
-})
+});
