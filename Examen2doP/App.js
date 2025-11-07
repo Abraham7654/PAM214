@@ -5,7 +5,7 @@ export default function ImageBackgroundScreen(){
   useEffect (() => {
     const timer = setTimeout (()=> {
       setShowSplash(false);
-    }, 1000);
+    }, 4000);
     return () => clearTimeout(timer);
     },[]); 
 
@@ -21,17 +21,21 @@ export default function ImageBackgroundScreen(){
   return (
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground
-      soruce ={{
-        uri:'https://wallpercave.com/wp/wp3850825.jpg',
-      }}
+      soruce ={{uri:'https://wallpapercave.com/wp/wp3850825.jpg',}}
       style={styles.background}
       >
         <View style={styles.overlay}>
-          <Text style={styles.title}>Bienvenido!</Text>
+          <Text style={styles.title}>NOMBRE: Abraham Ordoñez Moreno.</Text>
+
+           <Text style={styles.title}>PROFESION: Actualmente mi profesion o en lo que estoy estudiando es ingenieria en sistemas. </Text>
+
+            <Text style={styles.title}>Soy estudiante de la upq, trabajp actualmente por cuenta propia como tamnien tengo mi certifcacion de entrenador personal
+               y me gusta a lo que me dedico actualmente y me gusta lo que estoy estudiando actualmente </Text>
+
+             <Text style={styles.title}>CORREO ELECTRONICO: 124049257@upq.edu.mx</Text>
+              <Text style={styles.title}>NUMERO: 4421274396</Text>
         </View>
-
       </ImageBackground>
-
     </SafeAreaView>
   )
 }
@@ -48,8 +52,8 @@ const styles = StyleSheet.create({
 
   
   splashText: {
-    fontSize: 24, 
-    color: '#fff', 
+    fontSize: 15, 
+    color: '#a9a9a9', 
   },
 
   
