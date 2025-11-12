@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Text, StyleSheet, View, SafeAreaView, ImageBackground } from 'react-native'
+import { Text, StyleSheet, View, SafeAreaView, ImageBackground, Button} from 'react-native'
+import { Button } from 'react-native-web';
 export default function ImageBackgroundScreen(){
   const[showSplash, setShowSplash] = useState(true)
   useEffect (() => {
@@ -29,7 +30,8 @@ export default function ImageBackgroundScreen(){
 
            <Text style={styles.title}>PROFESION: Actualmente mi profesion o en lo que estoy estudiando es ingenieria en sistemas. </Text>
 
-            <Text style={styles.title}>Soy estudiante de la upq, trabajp actualmente por cuenta propia como tamnien tengo mi certifcacion de entrenador personal
+            <Text style={styles.title}>Soy estudiante de la upq, trabajo actualmente por cuenta propia como tamnien tengo
+               mi certifcacion de entrenador personal
                y me gusta a lo que me dedico actualmente y me gusta lo que estoy estudiando actualmente </Text>
 
              <Text style={styles.title}>CORREO ELECTRONICO: 124049257@upq.edu.mx</Text>
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
   
   splashText: {
     fontSize: 15, 
-    color: '#a9a9a9', 
+    color: '#a9a9a9ff', 
   },
 
   
@@ -72,8 +74,8 @@ const styles = StyleSheet.create({
 
   
   title: {
-    fontSize: 28, 
-    color: '#fff', 
+    fontSize: 20, 
+    color: '#161515ff', 
     marginBottom: 10, 
     textAlign: 'center', 
   },
