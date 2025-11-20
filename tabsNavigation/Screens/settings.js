@@ -1,11 +1,10 @@
 import { View, Text, StyleSheet } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons'; // <-- CORREGIDO: Importado como Ionicons
+import { Ionicons } from '@expo/vector-icons'; 
 
 export default function Settings({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.iconRow}>
-        {/* Uso correcto del componente importado */}
         <Ionicons name="settings-outline" size={28} color="blue" />
         <Text style={styles.title}>Configuraciones de usuario</Text>
       </View>

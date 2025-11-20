@@ -1,11 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons'; // <-- Importación correcta
+import { Ionicons } from '@expo/vector-icons'; 
 
-// Importa las pantallas
-import Home from './Screens/home';
-import Profile from './Screens/profile';
-import Settings from './Screens/settings';
+
+import Home from './screens/home'; 
+import Settings from './screens/settings';
+import ProfileStack from './ProfileStack'; 
 
 const Tab = createBottomTabNavigator();
 
@@ -15,22 +15,20 @@ export default function App() {
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={({ route }) => ({
-          headerShown: false,
+          headerShown: false, 
           tabBarIcon: ({ color, size }) => {
             let iconName;
 
             if (route.name === 'Home') {
               iconName = 'home';
-            } else if (route.name === 'Profile') {
+            } else if (route.name === 'Profile') { 
               iconName = 'person';
             } else if (route.name === 'Settings') {
               iconName = 'settings';
             }
 
-            // Uso correcto de Ionicons
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          // Estilos de la barra de pestañas
           tabBarActiveTintColor: '#007BFF',
           tabBarInactiveTintColor: 'gray',
           tabBarStyle: {
@@ -39,8 +37,13 @@ export default function App() {
           },
         })}
       >
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen name="Home" component={Home} /> 
+        
+        <Tab.Screen 
+          name="Profile" 
+          component={ProfileStack} 
+        />
+        
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator>
     </NavigationContainer>

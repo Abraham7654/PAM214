@@ -1,11 +1,10 @@
 import { View, Text, StyleSheet } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons'; // <-- CORREGIDO: Importado como Ionicons
+import { Ionicons } from '@expo/vector-icons'; 
 
 export default function Home() {
   return (
     <View style={styles.container}>
       <View style={styles.iconRow}>
-        {/* Uso correcto del componente importado */}
         <Ionicons name="home-outline" size={28} color="red" />
         <Text style={styles.title}>Bienvenido a la pantalla principal</Text>
       </View>
