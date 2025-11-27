@@ -1,24 +1,30 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert, ActivityIndicator, Platform } from 'react-native';
-// Importamos el controlador
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  Alert,
+  ActivityIndicator,
+  Platform,
+} from 'react-native';
 import { UsuarioController } from '../controllers/UsuarioController';
 
-// Instanciamos el controlador
 const controller = new UsuarioController();
 
 export default function InsertUsuarioScreen() {
-
   const [usuarios, setUsuarios] = useState([]);
   const [nombre, setNombre] = useState('');
   const [loading, setLoading] = useState(true);
-  const [guardando, setGuardando] = useState(false);
+  const [procesando, setProcesando] = useState(false);
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [idUsuarioEditar, setIdUsuarioEditar] = useState(null);
 
-  // --- Lógica del Controlador (rellenando la funcionalidad) ---
-  
-  // Función SELECT
   const cargarUsuarios = useCallback(async () => {
     try {
-      if(usuarios.length === 0) setLoading(true);
+      if (usuarios.length === 0) setLoading(true);
       const data = await controller.obtenerUsuarios();
       setUsuarios(data);
     } catch (error) {
@@ -28,134 +34,155 @@ export default function InsertUsuarioScreen() {
     }
   }, []);
 
-  // Inicialización y Observadores
   useEffect(() => {
     const init = async () => {
       await controller.initialize();
       await cargarUsuarios();
     };
+
     init();
-    
     controller.addListener(cargarUsuarios);
+
     return () => {
       controller.removeListener(cargarUsuarios);
     };
   }, [cargarUsuarios]);
 
-  // Función INSERT
-  const handleAgregar = async () => {
-    if (guardando) return;
+  const handleGuardar = async () => {
+    if (procesando) return;
+
     try {
-      setGuardando(true);
-      const usuarioCreado = await controller.crearUsuario(nombre);
-      // Solo mostramos alerta en móvil para no molestar en web, o como prefieras
-      if(Platform.OS !== 'web') {
-        Alert.alert('Usuario Creado', `"${usuarioCreado.nombre}" guardado con ID: ${usuarioCreado.id}`);
+      setProcesando(true);
+
+      if (modoEdicion) {
+        await controller.actualizarUsuario(idUsuarioEditar, nombre);
+
+        if (Platform.OS !== 'web') {
+          Alert.alert('Éxito', 'Usuario actualizado');
+        }
+
+        cancelarEdicion();
+      } else {
+        const usuarioCreado = await controller.crearUsuario(nombre);
+
+        if (Platform.OS !== 'web') {
+          Alert.alert(
+            'Usuario Creado',
+            `"${usuarioCreado.nombre}" con ID: ${usuarioCreado.id}`
+          );
+        }
+
+        setNombre('');
       }
-      setNombre('');
     } catch (error) {
       Alert.alert('Error', error.message);
     } finally {
-      setGuardando(false);
+      setProcesando(false);
     }
   };
 
-  // Render Item (Diseño de la lista)
+  const prepararEdicion = (usuario) => {
+    setNombre(usuario.nombre);
+    setIdUsuarioEditar(usuario.id);
+    setModoEdicion(true);
+  };
+
+  const cancelarEdicion = () => {
+    setModoEdicion(false);
+    setIdUsuarioEditar(null);
+    setNombre('');
+  };
+
+  const handleEliminar = (id) => {
+    if (Platform.OS === 'web') {
+      if (confirm('¿Eliminar usuario?')) controller.eliminarUsuario(id);
+    } else {
+      Alert.alert('Eliminar Usuario', '¿Seguro que deseas eliminarlo?', [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Eliminar',
+          style: 'destructive',
+          onPress: () => controller.eliminarUsuario(id),
+        },
+      ]);
+    }
+  };
+
   const renderItem = ({ item, index }) => (
     <View style={styles.userItem}>
-        <View style={styles.userNumber}>
-          {/* Calculamos el número inverso o índice + 1 */}
-          <Text style={styles.userNumberText}>{usuarios.length - index}</Text>
-        </View>
-        <View style={styles.userInfo}>
+      <View style={styles.userInfoContainer}>
+        <Text style={styles.userNumber}>#{usuarios.length - index}</Text>
+        <View>
           <Text style={styles.userName}>{item.nombre}</Text>
-          <Text style={styles.userId}>ID: {item.id}</Text>
-          <Text style={styles.userDate}>
-             {new Date(item.fechaCreacion).toLocaleDateString('es-MX', {
-                 year: 'numeric', month: 'long', day: 'numeric'
-             })}
+          <Text style={styles.userDetails}>
+            ID: {item.id} -{' '}
+            {new Date(item.fechaCreacion).toLocaleDateString()}
           </Text>
         </View>
+      </View>
+
+      <View style={styles.simpleActions}>
+        <TouchableOpacity onPress={() => prepararEdicion(item)}>
+          <Text style={styles.simpleEditBtn}>Editar</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.separator}>|</Text>
+
+        <TouchableOpacity onPress={() => handleEliminar(item.id)}>
+          <Text style={styles.simpleDeleteBtn}>Eliminar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
-  // --- Fin de lógica ---
-
   return (
-    
     <View style={styles.container}>
+      <Text style={styles.mainTitle}>Gestión de Usuarios</Text>
 
-      {/* Zona del encabezado */}
-
-      <Text style={styles.title}> INSERT & SELECT</Text>
-      <Text style={styles.subtitle}>
-        {Platform.OS === 'web' ? ' WEB (LocalStorage)' : ` ${Platform.OS.toUpperCase()} (SQLite)`}
-      </Text>
-
-      {/* Zona del INSERT */}
-
-      <View style={styles.insertSection}>
-        <Text style={styles.sectionTitle}> Insertar Usuario</Text>
-        
+      <View style={styles.formContainer}>
         <TextInput
-          style={styles.input}
-          placeholder="Escribe el nombre del usuario"
+          style={styles.simpleInput}
+          placeholder="Nombre del usuario"
           value={nombre}
           onChangeText={setNombre}
-          editable={!guardando}
+          editable={!procesando}
         />
 
-        <TouchableOpacity 
-          style={[styles.button, guardando && styles.buttonDisabled]} 
-          onPress={handleAgregar}
-          disabled={guardando} >
-
-          <Text style={styles.buttonText}>
-            {guardando ? ' Guardando...' : 'Agregar Usuario'}
-          </Text>
-
-        </TouchableOpacity>
-
-      </View>
-
-      {/* Zona del SELECT */}
-
-      <View style={styles.selectSection}>
-
-        <View style={styles.selectHeader}>
-
-          <Text style={styles.sectionTitle}>Lista de Usuarios</Text>
-
-          <TouchableOpacity 
-            style={styles.refreshButton}
-            onPress={cargarUsuarios} >
-            <Text style={styles.refreshText}>Recargar</Text>
+        <View style={styles.buttonRow}>
+          <TouchableOpacity
+            style={[
+              styles.mainButton,
+              modoEdicion ? styles.btnUpdate : styles.btnAdd,
+            ]}
+            onPress={handleGuardar}
+            disabled={procesando}
+          >
+            <Text style={styles.mainButtonText}>
+              {procesando ? '...' : modoEdicion ? 'Actualizar' : 'Agregar'}
+            </Text>
           </TouchableOpacity>
 
+          {modoEdicion && (
+            <TouchableOpacity
+              style={styles.btnCancel}
+              onPress={cancelarEdicion}
+            >
+              <Text style={styles.btnCancelText}>Cancelar</Text>
+            </TouchableOpacity>
+          )}
         </View>
-
-        {loading ? (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#007AFF" />
-            <Text style={styles.loadingText}>Cargando usuarios...</Text>
-          </View>
-           ) : (
-          <FlatList
-            data={usuarios}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={renderItem}
-            ListEmptyComponent={
-              <View style={styles.emptyContainer}>
-                <Text style={styles.emptyText}> No hay usuarios</Text>
-                <Text style={styles.emptySubtext}>Agrega el primero arriba</Text>
-              </View>
-            }
-            contentContainerStyle={usuarios.length === 0 && styles.emptyList}
-          />
-        )}
-
       </View>
 
+      {loading ? (
+        <ActivityIndicator style={{ marginTop: 20 }} size="large" />
+      ) : (
+        <FlatList
+          data={usuarios}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          contentContainerStyle={styles.listContainer}
+        />
+      )}
     </View>
   );
 }
@@ -163,156 +190,125 @@ export default function InsertUsuarioScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
-    paddingTop: 50,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#333',
-    marginBottom: 5,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  insertSection: {
-    backgroundColor: '#fff',
     padding: 20,
-    marginHorizontal: 15,
-    marginBottom: 15,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  selectSection: {
-    flex: 1,
+    paddingTop: 60,
     backgroundColor: '#fff',
-    marginHorizontal: 15,
-    marginBottom: 15,
-    borderRadius: 12,
-    padding: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
-  sectionTitle: {
-    fontSize: 18,
+
+  mainTitle: {
+    fontSize: 22,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 15,
+    textAlign: 'center',
+    marginBottom: 25,
   },
-  input: {
+
+  formContainer: {
+    marginBottom: 25,
+  },
+
+  simpleInput: {
     borderWidth: 1,
-    borderColor: '#e0e0e0',
-    borderRadius: 8,
+    borderColor: '#ccc',
+    padding: 12,
+    marginBottom: 15,
+    borderRadius: 4,
+    fontSize: 16,
+  },
+
+  buttonRow: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+
+  mainButton: {
+    flex: 1,
     padding: 15,
-    marginBottom: 12,
-    fontSize: 16,
-    backgroundColor: '#fafafa',
-  },
-  button: {
-    backgroundColor: '#007AFF',
-    padding: 16,
-    borderRadius: 8,
     alignItems: 'center',
+    borderRadius: 4,
   },
-  buttonDisabled: {
-    backgroundColor: '#ccc',
+
+  btnAdd: {
+    backgroundColor: '#007AFF',
   },
-  buttonText: {
-    color: '#fff',
+
+  btnUpdate: {
+    backgroundColor: '#FF9500',
+  },
+
+  btnCancel: {
+    padding: 15,
+    alignItems: 'center',
+    borderRadius: 4,
+    backgroundColor: '#e0e0e0',
+  },
+
+  mainButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
     fontSize: 16,
-    fontWeight: '600',
   },
-  selectHeader: {
+
+  btnCancelText: {
+    color: 'black',
+    fontSize: 16,
+  },
+
+  listContainer: {
+    paddingBottom: 20,
+  },
+
+  userItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
   },
-  refreshButton: {
-    padding: 8,
-  },
-  refreshText: {
-    color: '#007AFF',
-    fontSize: 14,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 40,
-  },
-  loadingText: {
-    marginTop: 10,
-    color: '#666',
-    fontSize: 14,
-  },
-  userItem: {
+
+  userInfoContainer: {
     flexDirection: 'row',
-    backgroundColor: '#f9f9f9',
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
-    borderLeftWidth: 4,
-    borderLeftColor: '#007AFF',
-  },
-  userNumber: {
-    width: 35,
-    height: 35,
-    borderRadius: 17.5,
-    backgroundColor: '#007AFF',
-    justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
-  },
-  userNumberText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 14,
-  },
-  userInfo: {
     flex: 1,
   },
+
+  userNumber: {
+    fontWeight: 'bold',
+    marginRight: 12,
+    color: '#555',
+    fontSize: 16,
+  },
+
   userName: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 4,
+    fontWeight: '500',
   },
-  userId: {
+
+  userDetails: {
     fontSize: 12,
-    color: '#007AFF',
-    marginBottom: 2,
+    color: '#888',
+    marginTop: 2,
   },
-  userDate: {
-    fontSize: 12,
-    color: '#666',
-  },
-  emptyContainer: {
+
+  simpleActions: {
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 40,
   },
-  emptyList: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  emptyText: {
-    fontSize: 18,
-    color: '#999',
-    marginBottom: 8,
-  },
-  emptySubtext: {
+
+  simpleEditBtn: {
+    color: '#007AFF',
+    padding: 8,
     fontSize: 14,
-    color: '#bbb',
+  },
+
+  simpleDeleteBtn: {
+    color: '#FF3B30',
+    padding: 8,
+    fontSize: 14,
+  },
+
+  separator: {
+    color: '#ccc',
+    marginHorizontal: 0,
   },
 });
