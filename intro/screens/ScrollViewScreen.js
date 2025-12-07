@@ -1,127 +1,154 @@
-import { Text, StyleSheet, View, Pressable, TouchableOpacity, RefreshControl } from 'react-native';
-import { useState } from "react";
-import { Switch, TouchableWithoutFeedback, ScrollView} from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image, Button, Alert } from 'react-native';
+import React from 'react';
 
-export default function BotonesScreen(){
-  const [accion, setAccion] = useState('nada');
-  const [isDisabled, setDisabled] = useState(false);
+export default function App() {
 
- 
-  const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = () => {
-  setRefreshing(true);
-  setTimeout(() => {
-    setRefreshing(false);
-  }, 2000); 
-};
+  const mostrarAlerta = (titulo) => {
+    Alert.alert(
+      titulo,
+      "¿Qué deseas hacer?",
+      [
+        { text: "Compartir" },
+        { text: "Guardar" },
+        { text: "Cerrar", style: "cancel" }
+      ]
+    );
+  };
 
-
-    return (
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
       
-      <ScrollView
-      showsVerticalScrollIndicator={false}
-
-      refreshControl = {
-        <RefreshControl refreshing ={refreshing} onRefresh={onRefresh} />
-      }
-            stickyHeaderIndices={[0]}
-      
-      >
       <View style={styles.header}>
-        <Text>
-          Activado
-        </Text>
-        <Switch
-        onValueChange={() => setDisabled(!isDisabled)}
-        value={isDisabled}
-        />
-        <Text>
-          {accion}
-        </Text>
+        <Text style={styles.headerText}>Mi Portal de Noticias</Text>
+      </View>
+
+      <ScrollView>
+
+        <Text style={styles.sectionTitle}>Deportes</Text>
+
+        <View style={styles.card}>
+          <Image
+            source={{ uri: 'https://st.depositphotos.com/1744806/1273/i/450/depositphotos_12731537-stock-photo-soccer-ball.jpg' }}
+            style={styles.image}
+          />
+          <Text style={styles.title}>Final de fútbol</Text>
+          <Text style={styles.date}>12 de diciembre 2025</Text>
+          <Text style={styles.resume}>El equipo local ganó el campeonato en un partido lleno de emoción.</Text>
+          <Button title="Leer más" onPress={() => mostrarAlerta("Final de fútbol")} />
         </View>
 
-        <View style={styles.content}>
-        <Pressable
-          disabled={isDisabled}
-          onPressIn={()=> setAccion('Pressable In')}
-          onPressOut={()=> setAccion('Pressable Out')}
-          onLongPress={()=> setAccion('Pressable Long')}
+        <View style={styles.card}>
+          <Image
+            source={{ uri: 'https://st.depositphotos.com/1003341/3284/i/450/depositphotos_32846077-stock-photo-basketball-ball-and-hoop.jpg' }}
+            style={styles.image}
+          />
+          <Text style={styles.title}>Liga de basquetbol</Text>
+          <Text style={styles.date}>10 de diciembre 2025</Text>
+          <Text style={styles.resume}>La temporada inicia con grandes expectativas para todos los equipos.</Text>
+          <Button title="Leer más" onPress={() => mostrarAlerta("Liga de basquetbol")} />
+        </View>
 
+        <Text style={styles.sectionTitle}>Nacional</Text>
 
-        >
-          {({pressed}) =>(
-            <View style={[styles.card, !pressed && styles.shadow]}>
-          <View style={styles.mockImage}></View>
-          <Text>
-            {pressed ? 'Tarjeta presionada.' : 'Tarjeta no presionada'}
-          </Text>
-         </View>
-          )}
-        </Pressable>
-        <TouchableOpacity
-        disabled={isDisabled} 
-        activeOpacity={0.1}
-        onPress={() => setAccion('Opacity')}
-        >
-          <View style={[styles.card, styles.shadow]}>
-            <View style={styles.mockImage}/>
-            <Text>
-              esta es una tarjeta.
-            </Text>
+        <View style={styles.card}>
+          <Image
+            source={{ uri: 'https://st.depositphotos.com/1000975/2567/i/450/depositphotos_25675137-stock-photo-mexican-flag.jpg' }}
+            style={styles.image}
+          />
+          <Text style={styles.title}>Nuevo proyecto federal</Text>
+          <Text style={styles.date}>9 de diciembre 2025</Text>
+          <Text style={styles.resume}>El gobierno anunció un nuevo programa de apoyo social.</Text>
+          <Button title="Leer más" onPress={() => mostrarAlerta("Nuevo proyecto federal")} />
+        </View>
 
-          </View>
-        </TouchableOpacity>
-        <TouchableWithoutFeedback
-        disabled={isDisabled}
-        onPress={() => setAccion('Whitout Feedback')}
-        >
-          <View style={[styles.card, styles.shadow]}>
-            <View style={styles.mockImage}/>
-            <Text>
-              esta es una tarjeta.
-            </Text>
+        <View style={styles.card}>
+          <Image
+            source={{ uri: 'https://st.depositphotos.com/1018724/1614/i/450/depositphotos_16145817-stock-photo-city-traffic.jpg' }}
+            style={styles.image}
+          />
+          <Text style={styles.title}>Tráfico en la ciudad</Text>
+          <Text style={styles.date}>8 de diciembre 2025</Text>
+          <Text style={styles.resume}>Autoridades recomiendan rutas alternas por obras viales.</Text>
+          <Button title="Leer más" onPress={() => mostrarAlerta("Tráfico en la ciudad")} />
+        </View>
 
-          </View>
-        </TouchableWithoutFeedback>
-        
-      </View>
+        <Text style={styles.sectionTitle}>Tecnología</Text>
+
+        <View style={styles.card}>
+          <Image
+            source={{ uri: 'https://st.depositphotos.com/1062035/3790/i/450/depositphotos_37902125-stock-photo-smartphone.jpg' }}
+            style={styles.image}
+          />
+          <Text style={styles.title}>Nuevo smartphone</Text>
+          <Text style={styles.date}>7 de diciembre 2025</Text>
+          <Text style={styles.resume}>La nueva generación de teléfonos llega con grandes mejoras.</Text>
+          <Button title="Leer más" onPress={() => mostrarAlerta("Nuevo smartphone")} />
+        </View>
+
+        <View style={styles.card}>
+          <Image
+            source={{ uri: 'https://st.depositphotos.com/1907633/4855/i/450/depositphotos_48557245-stock-photo-coding.jpg' }}
+            style={styles.image}
+          />
+          <Text style={styles.title}>Avances en programación</Text>
+          <Text style={styles.date}>6 de diciembre 2025</Text>
+          <Text style={styles.resume}>Nuevas herramientas facilitan el desarrollo de aplicaciones.</Text>
+          <Button title="Leer más" onPress={() => mostrarAlerta("Avances en programación")} />
+        </View>
+
+        <StatusBar style="auto" />
+
       </ScrollView>
-    );
-  }
+    </SafeAreaView>
+  );
+}
 
 const styles = StyleSheet.create({
-    header: {
-        backgroundColor: '#f7f7f7',
-        padding: 20,
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
-    },
-    content: {
-        alignItems: 'center',
-        backgroundColor: '#cbd2d0ff',
-        paddingTop: 10,
-    },
-    card: {
-        width: 200,
-        height: 250,
-        backgroundColor: 'white',
-        padding: 20,
-        flexDirection: 'column',
-        borderRadius: 8,
-        margin: 15
-    },
-    mockImage: {
-        flex: 1,
-        backgroundColor: 'gray',
-        marginBottom: 8,
-        borderRadius: 8
-    },
-    shadow: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.2,
-        shadowRadius: 12,
-        elevation: 10,
-    },
+  header: {
+    backgroundColor: '#1F7A55',
+    padding: 15,
+    alignItems: 'center'
+  },
+
+  headerText: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    margin: 15
+  },
+
+  card: {
+    backgroundColor: '#f2f2f2',
+    margin: 15,
+    padding: 10,
+    borderRadius: 10
+  },
+
+  image: {
+    width: '100%',
+    height: 150,
+    borderRadius: 10
+  },
+
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 5
+  },
+
+  date: {
+    fontSize: 14,
+    color: 'gray'
+  },
+
+  resume: {
+    fontSize: 16,
+    marginVertical: 5
+  }
 });
