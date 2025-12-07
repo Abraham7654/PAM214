@@ -1,49 +1,71 @@
 import { useEffect, useState } from 'react'
-import { Text, StyleSheet, View, SafeAreaView, ImageBackground, Button} from 'react-native'
-import { Button } from 'react-native-web';
+import { Text, StyleSheet, View, SafeAreaView, ImageBackground, TouchableOpacity, Alert } from 'react-native'
+import { ScrollView } from 'react-native-web';
+
 export default function ImageBackgroundScreen(){
-  const[showSplash, setShowSplash] = useState(true)
+  const [showSplash, setShowSplash] = useState(true)
+
   useEffect (() => {
-    const timer = setTimeout (()=> {
+    const timer = setTimeout (() => {
       setShowSplash(false);
     }, 4000);
     return () => clearTimeout(timer);
-    },[]); 
+  },[]);
 
-      if (showSplash) {
+  
+  const editarPerfil = () => {
+    Alert.alert(
+      "Editar Perfil",
+      "¿Deseas guardar los cambios?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        { text: "Guardar", onPress: () => console.log("Perfil guardado") }
+      ]
+    );
+  };
+
+
+  if (showSplash) {
     return (
-  
       <View style={styles.splashContainer}>
-        <Text style={styles.splashText}> Bienvenido a la app! </Text>
+        <Text style={styles.splashText}> Cargando... </Text>
       </View>
-  
     );
   }
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground
-      soruce ={{uri:'https://wallpapercave.com/wp/wp3850825.jpg',}}
-      style={styles.background}
+        source ={{
+          uri: 'https://static.vecteezy.com/system/resources/thumbnails/013/039/130/small/sky-blue-galaxy-background-free-photo.jpg',
+        }}
+        style={styles.background}
       >
-        <View style={styles.overlay}>
-          <Text style={styles.title}>NOMBRE: Abraham Ordoñez Moreno.</Text>
+        <ScrollView>
+          <View style={styles.overlay}>
+            <Text style={styles.title}> Abraham Ordoñez Moreno</Text>
 
-           <Text style={styles.title}>PROFESION: Actualmente mi profesion o en lo que estoy estudiando es ingenieria en sistemas. </Text>
+            <Text style={styles.text}> Soy Estudiante en ingenieria en sistemas</Text>
+            <Text style={styles.text}></Text>
+            <Text style={styles.text}> Trabajo y estudio actualmente me dedico a un negocio comercial</Text>
+            <Text style={styles.text}> Me gusta practicar varios deportes, el gimnasio y el futbol. </Text>
+            <Text style={styles.text}> Estado civil: soltero. </Text>
+            <Text style={styles.text}></Text>
+            <Text style={styles.text}> Correo electronico: 124049257@upq.edu.mx </Text>
 
-            <Text style={styles.title}>Soy estudiante de la upq, trabajo actualmente por cuenta propia como tamnien tengo
-               mi certifcacion de entrenador personal
-               y me gusta a lo que me dedico actualmente y me gusta lo que estoy estudiando actualmente </Text>
+            <TouchableOpacity style={styles.button} onPress={editarPerfil}>
+              <Text style={styles.btnText}>Editar Perfil</Text>
+            </TouchableOpacity>
 
-             <Text style={styles.title}>CORREO ELECTRONICO: 124049257@upq.edu.mx</Text>
-              <Text style={styles.title}>NUMERO: 4421274396</Text>
-        </View>
+          </View>
+        </ScrollView>
       </ImageBackground>
     </SafeAreaView>
   )
 }
 
+
 const styles = StyleSheet.create({
-  
 
   splashContainer: {
     flex: 1, 
@@ -52,31 +74,50 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
   },
 
-  
   splashText: {
-    fontSize: 15, 
-    color: '#a9a9a9ff', 
+    fontSize: 24, 
+    color: '#fff', 
   },
 
-  
   background: {
     flex: 1, 
     justifyContent: 'center', 
     alignItems: 'center', 
   },
 
-  
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.5)', 
     padding: 20, 
     borderRadius: 10, 
+    width: '100%',
+    minHeight: 1000,
   },
 
-  
   title: {
-    fontSize: 20, 
-    color: '#161515ff', 
+    fontSize: 30, 
+    color: '#fff', 
     marginBottom: 10, 
     textAlign: 'center', 
   },
+
+  text: {
+    color: 'white',
+    fontSize: 16,
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+
+  button: {
+    marginTop: 25,
+    backgroundColor: "#4a90e2",
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+
+  btnText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+  }
 });
