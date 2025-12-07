@@ -28,7 +28,13 @@ export default function ImageBackgroundScreen(){
   if (showSplash) {
     return (
       <View style={styles.splashContainer}>
-        <Text style={styles.splashText}> Cargando... </Text>
+        <ImageBackground
+        source ={{
+          uri: 'https://www.freevector.com/uploads/vector/preview/14053/FreeVector-Real-Madrid-FC.jpg',
+        }}
+          style={{flex: 1, width: '100%', height: '100%'}}>
+        <Text style={styles.splashText}> Entrando a mi pagina...</Text>
+        </ImageBackground>
       </View>
     );
   }
@@ -43,15 +49,24 @@ export default function ImageBackgroundScreen(){
       >
         <ScrollView>
           <View style={styles.overlay}>
-            <Text style={styles.title}> Abraham Ordoñez Moreno</Text>
+            <Text style={styles.title}> Presentacion </Text>
 
+            <Text style={styles.subtitle}> Nombre: </Text>
+            <Text style={styles.text}> Abraham Ordoñez Moreno</Text>
+
+            <Text style={styles.subtitle}> Profesion: </Text>
             <Text style={styles.text}> Soy Estudiante en ingenieria en sistemas</Text>
-            <Text style={styles.text}></Text>
+
+            <Text style={styles.subtitle}> Biografia: </Text>
             <Text style={styles.text}> Trabajo y estudio actualmente me dedico a un negocio comercial</Text>
-            <Text style={styles.text}> Me gusta practicar varios deportes, el gimnasio y el futbol. </Text>
-            <Text style={styles.text}> Estado civil: soltero. </Text>
-            <Text style={styles.text}></Text>
-            <Text style={styles.text}> Correo electronico: 124049257@upq.edu.mx </Text>
+            <Text style={styles.text}>con mi papa y estudio a la vez, me gusta mucho practicar Deportes, </Text>
+            <Text style={styles.text}>actualmente me gusta el gimnasio y estoy estudiando en la upq.</Text>
+
+            <Text style={styles.subtitle}> Estado civil: </Text>
+            <Text style={styles.text}>Soltero</Text>
+
+            <Text style={styles.subtitle}> Correo electronico: </Text>
+            <Text style={styles.text}>124049257@upq.edu.mx </Text>
 
             <TouchableOpacity style={styles.button} onPress={editarPerfil}>
               <Text style={styles.btnText}>Editar Perfil</Text>
@@ -70,13 +85,12 @@ const styles = StyleSheet.create({
   splashContainer: {
     flex: 1, 
     backgroundColor: '#000000ff', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
   },
 
   splashText: {
     fontSize: 24, 
-    color: '#fff', 
+    color: '#000000ff', 
+    textAlign: "center",
   },
 
   background: {
@@ -104,7 +118,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     marginBottom: 10,
-    textAlign: 'center',
   },
 
   button: {
@@ -119,5 +132,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
+  },
+
+  subtitle: {
+    color: 'blue',
+    fontSize: 20,
   }
+
 });
