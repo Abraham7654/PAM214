@@ -51,7 +51,7 @@ export default function App() {
 
               <Text style={styles.Subtitulos}>Presentación:</Text>
               <Text style={styles.Texto}>
-                Me llamo Israel Esau Rico Ramirez y soy estudiante de la Universidad Politécnica de Querétaro,
+                Me llamo Abraham Ordoñez Moreno y soy estudiante de la Universidad Politécnica de Querétaro,
                 vivo en Humilpan Querétaro y tengo 18 años y a poco de cumplir los 19 el 24 de diciembre.
               </Text>
 
