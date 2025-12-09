@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ImageBackground, ScrollView, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, ImageBackground, ScrollView, SafeAreaView, TouchableOpacity} from "react-native";
 
 export default function App() {
   const [mostrarSplash, setMostrarSplash] = useState(true);
@@ -10,6 +10,16 @@ export default function App() {
     }, 3500);
     return () => clearTimeout(timer);
   }, []);
+
+  const verReceta = () => {
+    Alert.alert(
+      "Receta Completa",
+      [
+        { text: "Cancelar", style: "cancel" },
+      ]
+    );
+  };
+
 
   if (mostrarSplash) {
     return (
@@ -23,7 +33,7 @@ export default function App() {
     <SafeAreaView style={{ flex: 1 }}>
       <ImageBackground
         source={{
-          uri: "https://img.freepik.com/foto-gratis/concepto-ingredientes-cocina-vista-superior-espacio-copia_23-2148601307.jpg"
+          uri: "https://media.istockphoto.com/id/1477430966/es/foto/mujer-preparando-mezcla-de-verduras-de-quinua-cocinada-en-una-sart%C3%A9n.jpg?s=612x612&w=0&k=20&c=Zo-7Tq2vhj2Pg-9NyTtX4YaIRW3EAQaB6BedsXMo-ww="
         }}
         style={styles.fondo}
       >
@@ -31,47 +41,67 @@ export default function App() {
 
         <ScrollView style={{ width: "100%" }}>
           <View style={styles.card}>
-            <Text style={styles.nombre}>Spaghetti a la Boloñesa</Text>
+            <Text style={styles.nombre}>Spaghetti</Text>
             <Text style={styles.tiempo}>Tiempo: 40 min</Text>
+            <Text style={styles.Descripcion}> Descripcion: Un platillo delicioso un poco mas elaborado pero muy bueno </Text>
             <Text style={styles.receta}>
               Ingredientes: pasta, carne molida, tomate, cebolla, ajo, especias. 
               Preparación: Cocer pasta, sofreír carne con verduras, agregar salsa y mezclar.
+                <TouchableOpacity style={styles.button} onPress={verReceta}>
+              <Text style={styles.btnText}>Ver receta </Text>
+            </TouchableOpacity>
             </Text>
           </View>
 
           <View style={styles.card}>
             <Text style={styles.nombre}>Enchiladas Verdes</Text>
             <Text style={styles.tiempo}>Tiempo: 30 min</Text>
+            <Text style={styles.Descripcion}> Descripcion: Un platillo muy tipico de mexico y que usaulmente es para desayunar </Text>
             <Text style={styles.receta}>
               Ingredientes: tortillas, pollo, salsa verde, crema, queso. 
               Preparación: Rellenar tortillas con pollo, bañar con salsa y gratinar.
+              <TouchableOpacity style={styles.button} onPress={verReceta}>
+              <Text style={styles.btnText}>Ver receta </Text>
+            </TouchableOpacity>
             </Text>
           </View>
 
           <View style={styles.card}>
             <Text style={styles.nombre}>Tacos de Carne Asada</Text>
             <Text style={styles.tiempo}>Tiempo: 20 min</Text>
+            <Text style={styles.Descripcion}> Descripcion: Un platillo tipico para fiestas o estar con amigos y familiares </Text>
             <Text style={styles.receta}>
               Ingredientes: carne asada, tortillas, limón, cilantro, cebolla. 
               Preparación: Asar carne, picar ingredientes y servir en tortilla.
+              <TouchableOpacity style={styles.button} onPress={verReceta}>
+              <Text style={styles.btnText}>Ver receta </Text>
+            </TouchableOpacity>
             </Text>
           </View>
 
           <View style={styles.card}>
             <Text style={styles.nombre}>Huevos a la Mexicana</Text>
             <Text style={styles.tiempo}>Tiempo: 10 min</Text>
+            <Text style={styles.Descripcion}> Descripcion: Un platillo hecho con huevo muy tipico en guisos o para tacos </Text>
             <Text style={styles.receta}>
               Ingredientes: huevo, tomate, cebolla, chile. 
               Preparación: Sofreír verduras y agregar huevo batido.
+              <TouchableOpacity style={styles.button} onPress={verReceta}>
+              <Text style={styles.btnText}>Ver receta </Text>
+            </TouchableOpacity>
             </Text>
           </View>
 
           <View style={styles.card}>
             <Text style={styles.nombre}>Quesadillas de Champiñón</Text>
             <Text style={styles.tiempo}>Tiempo: 15 min</Text>
+            <Text style={styles.Descripcion}> Descripcion: Una receta sencilla pero muy rica y muy mexicana </Text>
             <Text style={styles.receta}>
               Ingredientes: champiñones, queso, tortillas, mantequilla. 
               Preparación: Saltear champiñón, armar quesadilla y dorar.
+              <TouchableOpacity style={styles.button} onPress={verReceta}>
+              <Text style={styles.btnText}>Ver receta </Text>
+            </TouchableOpacity>
             </Text>
           </View>
         </ScrollView>
@@ -126,5 +156,25 @@ const styles = StyleSheet.create({
   receta: {
     fontSize: 15,
     color: "#fff"
+  },
+  Descripcion: {
+    fontSize: 15,
+    color: "#fff"
+  },
+   button: {
+    marginTop: 25,
+    backgroundColor: "#4a90e2",
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+
+  btnText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
   }
 });
+
+
+//quiero que me pongas en el boton de ver receta un alertde los ingredientes que ya tengo ahi pero deben de estar dentro de ver receta
